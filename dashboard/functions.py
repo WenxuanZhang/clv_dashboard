@@ -15,11 +15,23 @@ views = Blueprint('views', __name__)
 data_path = os.getcwd()+'/dashboard/data'
 file_path_1 = data_path + '/train.csv'
 cltv_path = data_path + '/customer_ltv.csv'
+test_path = data_path + '/test.csv'
 df_all = pd.read_csv(file_path_1)
 metrics = df_all.columns 
 df_cltv = pd.read_csv(cltv_path)
-#print(metrics)
-#print(df_cltv.head())
+#test_data = pd.read_csv(test_path)
+df_cltv_f = df_cltv
+sel_col = ['monetary_value','predict_purch_10','predict_purch_30','predict_purch_60','predict_purch_90','prob_alive']
+df_cltv_f[sel_col] = round(df_cltv_f[sel_col],2)
+df_cltv_f['Churn'] = round(df_cltv_f['Churn'] ,3)
+df_cltv_f[['CLV','Revenues']] = round(df_cltv_f[['CLV','Revenues']],0)
+#df_cltv_f['InvoiceDate'] = pd.to_datetime(df_cltv_f['InvoiceDate'])
+df_cltv_f = df_cltv_f[['CustomerID','Segmentation','Country','CLV','frequency','recency','monetary_value','predict_purch_10','predict_purch_30','predict_purch_60','predict_purch_90','InvoiceDate']]
+
+test_data_t = [list(df_cltv_f.iloc[i]) for i in range(len(df_cltv_f))]
+#test_data_t =  [list(test_data.iloc[i]) for i in range(len(test_data))]
+head_info = [{"title":item} for item in list(df_cltv_f.columns)]
+table_data = {'data':test_data_t,'head':head_info}
 
 roi_data = {'budget':'$1000','cpm':'$8.6','impression':'116,279',
 'ctr':'2.3%','clicks':'2,674','conversion':'201',
@@ -35,10 +47,10 @@ def index():
     bar = create_plot('Survived',df_all)
     user_info = get_user_meta(df_cltv)
     country_info = get_country(df_cltv)
-    print(country_info.head())
+    #print(country_info.head())
     clv_bar = clv_churn_plot(country_info)
     seg_data = seg_plot(df_cltv)
-    return render_template('index.html',plot = clv_bar, seg = seg_data, user_info = user_info,roi_data = roi_data)
+    return render_template('index.html',plot = clv_bar, seg = seg_data, user_info = user_info,roi_data = roi_data,test_data = table_data)
 
 def create_plot(x_metric, df):
     select_feature = df[x_metric].value_counts()

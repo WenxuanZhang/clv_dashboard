@@ -1,6 +1,6 @@
 {% extends "base.html" %}{% block content%}
 
-                   <!-- Content Row -->
+    <!-- Content Row -->
                     <div class="row">
 
                         <!-- Earnings (Monthly) Card Example -->
@@ -41,11 +41,11 @@
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Avg. Churn Prob
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Avg. Churn Prob
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
@@ -66,11 +66,11 @@
 
                         <!-- Pending Requests Card Example -->
                         <div class="col-xl-2 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 AVG. ORDER #</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{user_info['order_num']}}</div>
                                         </div>
@@ -84,11 +84,11 @@
  
                         <!-- Pending Requests Card Example -->
                         <div class="col-xl-2 col-md-6 mb-4">
-                            <div class="card border-left-danger shadow h-100 py-2">
+                            <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 AVG. ORDER $</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{user_info['order_size']}}</div>
                                         </div>
@@ -140,6 +140,7 @@
                 <input type="radio" id="ls-a" name="target_sel" value="ls-a">
                 <label for="ls-a">LS active</label>
             </row>
+
             <row>
                     <form>
                         <table>
@@ -180,8 +181,37 @@
                             </tr></table>
                 </form>
             </row>
+
         </div>
     </div>
+
+    <div class = "row">
+
+    <div class = "col-md-12">
+     <br></br>
+        <table id="example" class="display" width="100%">
+
+        </table>
+      </div>
+    </div>
+  <script>
+const dataSet =  {{ test_data['data'] | safe}}
+const head_info = {{ test_data['head']|safe}}
+new DataTable('#example', {
+    columns: head_info,
+    data: dataSet,
+    fixedColumns: {
+       leftColumns: 2,
+    },
+    paging: false,
+    scrollCollapse: true,
+    scrollX: true,
+    scrollY: 500,
+    dom: 'Bfrtip',
+     buttons: ['copy', 'csv', 'excel']
+});
+     </script>
+
 
 
 {% endblock %}

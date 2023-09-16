@@ -10,5 +10,7 @@ input.dchange, textarea {
   background: #f9f9fc; }
 
 
-
+th,td {
+ text-align:center;
+}
 
